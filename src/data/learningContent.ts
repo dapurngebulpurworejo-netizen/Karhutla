@@ -599,3 +599,10 @@ export function getQuizQuestions(lang: Language): QuizQuestion[] {
 export function getCuratedTutorQA(lang: Language) {
   return lang === 'id' ? CURATED_TUTOR_QA_ID : CURATED_TUTOR_QA_EN;
 }
+
+
+// Default Indonesian exports for backward compatibility
+export const PILLARS_CONTENT: PillarContent[] = PILLARS_CONTENT_ID;
+export const ISPU_SCALE: IspuLevel[] = ISPU_SCALE_ID;
+export const QUIZ_QUESTIONS: QuizQuestion[] = QUIZ_QUESTIONS_ID;
+export const CURATED_TUTOR_QA = CURATED_TUTOR_QA_ID;
