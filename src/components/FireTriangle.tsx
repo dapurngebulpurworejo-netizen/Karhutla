@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { Flame, Wind, Thermometer, Layers, Droplets, Scissors, Shield, RefreshCw } from 'lucide-react';
-import { AppTranslations } from '../data/translations';
+import { AppTranslations, TRANSLATIONS } from '../data/translations';
 import { playClickSfx, playWaterSfx, playIgniteSfx } from '../utils/audio';
 
 interface FireTriangleProps {
-  t: AppTranslations;
+  t?: AppTranslations;
 }
 
 export const FireTriangle: React.FC<FireTriangleProps> = ({ t }) => {
+  const activeT = t || TRANSLATIONS['id'];
   const [hasHeat, setHasHeat] = useState(true);
   const [hasFuel, setHasFuel] = useState(true);
   const [hasOxygen, setHasOxygen] = useState(true);
@@ -42,13 +43,13 @@ export const FireTriangle: React.FC<FireTriangleProps> = ({ t }) => {
         {/* Section Header */}
         <div className="max-w-3xl mb-8">
           <div className="text-xs font-semibold text-emerald-800 mb-1">
-            {t.fireTriangle.kicker}
+            Konsep Sains IPA SMP · Reaksi Pembakaran
           </div>
           <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
-            {t.fireTriangle.title}
+            Laboratorium Konsep: Segitiga Api (Fire Triangle)
           </h2>
           <p className="text-sm sm:text-base text-slate-600 mt-2">
-            {t.fireTriangle.description}
+            Kebakaran hutan adalah reaksi kimia oksidasi cepat. Api hanya dapat menyala jika ketiga pilar di bawah ini hadir secara bersamaan. Coba hilangkan salah satu unsur untuk melihat cara kerja tim pemadam kebakaran!
           </p>
         </div>
 
@@ -58,19 +59,20 @@ export const FireTriangle: React.FC<FireTriangleProps> = ({ t }) => {
           <div className="lg:col-span-6 bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 flex flex-col items-center justify-center min-h-[380px] relative shadow-sm">
             {/* Live Indicator */}
             <div className="absolute top-4 left-4 flex items-center gap-2 text-xs font-semibold">
-              <span className="text-slate-500">{t.fireTriangle.reactionStatus}</span>
+              <span className="text-slate-500">Status Reaksi Kimia:</span>
               <span
                 className={`px-2 py-0.5 rounded text-xs font-bold ${
                   isFireActive ? 'bg-rose-100 text-rose-800' : 'bg-emerald-100 text-emerald-800'
                 }`}
               >
-                {isFireActive ? t.fireTriangle.activeStatus : t.fireTriangle.extinguishedStatus}
+                {isFireActive ? '● API MENYALA AKTIF' : '○ API PADAM / TERHENTI'}
               </span>
             </div>
 
             {/* Triangle SVG Canvas */}
             <div className="relative w-72 h-72 sm:w-80 sm:h-80 flex items-center justify-center my-4">
               <svg viewBox="0 0 300 280" className="w-full h-full drop-shadow-sm">
+                {/* Triangle Base lines */}
                 {/* Leg 1: Heat (Bottom left to Top) */}
                 <line
                   x1="50"
@@ -112,13 +114,13 @@ export const FireTriangle: React.FC<FireTriangleProps> = ({ t }) => {
 
                 {/* Text along edges */}
                 <text x="75" y="130" fill={hasHeat ? '#DC2626' : '#94A3B8'} fontWeight="bold" fontSize="13">
-                  HEAT (Kalor)
+                  PANAS (Heat)
                 </text>
                 <text x="180" y="130" fill={hasOxygen ? '#0284C7' : '#94A3B8'} fontWeight="bold" fontSize="13">
-                  OXYGEN (O₂)
+                  OKSIGEN (O₂)
                 </text>
                 <text x="110" y="265" fill={hasFuel ? '#D97706' : '#94A3B8'} fontWeight="bold" fontSize="13">
-                  FUEL (Bahan Bakar)
+                  BAHAN BAKAR (Fuel)
                 </text>
               </svg>
 
@@ -130,7 +132,7 @@ export const FireTriangle: React.FC<FireTriangleProps> = ({ t }) => {
                       <Flame className="w-14 h-14" />
                     </div>
                     <span className="text-xs font-bold text-rose-700 mt-2 bg-white px-2 py-0.5 rounded shadow-sm border border-rose-100">
-                      Rapid Oxidation Sustained
+                      Oksidasi Cepat Berkelanjutan
                     </span>
                   </div>
                 ) : (
@@ -139,7 +141,7 @@ export const FireTriangle: React.FC<FireTriangleProps> = ({ t }) => {
                       <Shield className="w-14 h-14" />
                     </div>
                     <span className="text-xs font-bold text-emerald-700 mt-2 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-                      Reaction Chain Broken
+                      Rantai Reaksi Terputus
                     </span>
                   </div>
                 )}
@@ -148,26 +150,40 @@ export const FireTriangle: React.FC<FireTriangleProps> = ({ t }) => {
 
             {/* Scientific feedback */}
             <div className="w-full text-center mt-2 pt-4 border-t border-slate-100 text-xs sm:text-sm text-slate-600">
-              {isFireActive && <p>{t.fireTriangle.feedbackActive}</p>}
-              {!hasHeat && <p className="text-emerald-800 font-medium">{t.fireTriangle.feedbackNoHeat}</p>}
-              {!hasFuel && <p className="text-emerald-800 font-medium">{t.fireTriangle.feedbackNoFuel}</p>}
-              {!hasOxygen && <p className="text-emerald-800 font-medium">{t.fireTriangle.feedbackNoOxygen}</p>}
+              {isFireActive && (
+                <p>
+                  Ketiga unsur terpenuhi. Api terus menjalar dan melepaskan energi panas serta gas CO₂.
+                </p>
+              )}
+              {!hasHeat && (
+                <p className="text-emerald-800 font-medium">
+                  <strong>Pilar Panas Hilang:</strong> Suhu bahan bakar turun di bawah temperatur nyala (ignition temperature). Api padam seketika!
+                </p>
+              )}
+              {!hasFuel && (
+                <p className="text-emerald-800 font-medium">
+                  <strong>Pilar Bahan Bakar Hilang:</strong> Tidak ada ranting, gambut, atau rumput kering untuk dibakar. Api tidak bisa merambat.
+                </p>
+              )}
+              {!hasOxygen && (
+                <p className="text-emerald-800 font-medium">
+                  <strong>Pilar Oksigen Hilang:</strong> Konsentrasi gas O₂ turun di bawah 16%. Api mati lemas (suffocation).
+                </p>
+              )}
             </div>
           </div>
 
-          {/* Right Zone: Interactive Control Deck & Firefighting Science */}
+          {/* Right Zone: Interactive Control Deck & Real-World Firefighting Science */}
           <div className="lg:col-span-6 space-y-4">
             <div className="bg-white rounded-2xl border border-slate-200 p-6 space-y-4 shadow-sm">
               <div className="flex items-center justify-between">
-                <h3 className="text-base font-bold text-slate-900">
-                  {t.fireTriangle.title}
-                </h3>
+                <h3 className="text-base font-bold text-slate-900">Uji Coba Unsur Pembakaran</h3>
                 <button
                   onClick={handleReset}
                   className="text-xs font-semibold text-slate-600 hover:text-slate-900 flex items-center gap-1 px-2.5 py-1 rounded bg-slate-100 hover:bg-slate-200 transition-colors"
                 >
                   <RefreshCw className="w-3.5 h-3.5" />
-                  <span>{t.fireTriangle.restoreBtn}</span>
+                  <span>Pulihkan Semua Unsur</span>
                 </button>
               </div>
 
@@ -188,8 +204,8 @@ export const FireTriangle: React.FC<FireTriangleProps> = ({ t }) => {
                         <Thermometer className="w-5 h-5" />
                       </div>
                       <div>
-                        <div className="text-sm font-bold text-slate-900">{t.fireTriangle.heat}</div>
-                        <div className="text-xs text-slate-500">{t.fireTriangle.heatDesc}</div>
+                        <div className="text-sm font-bold text-slate-900">1. Energi Panas (Heat)</div>
+                        <div className="text-xs text-slate-500">Matahari terik, petir, bara puntung, gesekan ranting</div>
                       </div>
                     </div>
                     <button
@@ -198,12 +214,12 @@ export const FireTriangle: React.FC<FireTriangleProps> = ({ t }) => {
                         hasHeat ? 'bg-rose-600 text-white' : 'bg-slate-200 text-slate-700'
                       }`}
                     >
-                      {hasHeat ? t.fireTriangle.heatBtnActive : t.fireTriangle.heatBtnInactive}
+                      {hasHeat ? 'Aktif (Hilangkan Panas)' : 'Padam (Siram Air)'}
                     </button>
                   </div>
                   <div className="mt-2.5 pt-2 border-t border-rose-100/60 text-xs text-slate-600 flex items-center gap-1.5">
                     <Droplets className="w-3.5 h-3.5 text-blue-600 shrink-0" />
-                    <span><strong>Firefighting Science:</strong> {t.fireTriangle.heatRangerNote}</span>
+                    <span><strong>Metode Manggala Agni:</strong> Water bombing helikopter & semprotan pompa air bertekanan tinggi menyerap panas hingga dingin.</span>
                   </div>
                 </div>
 
@@ -222,8 +238,8 @@ export const FireTriangle: React.FC<FireTriangleProps> = ({ t }) => {
                         <Layers className="w-5 h-5" />
                       </div>
                       <div>
-                        <div className="text-sm font-bold text-slate-900">{t.fireTriangle.fuel}</div>
-                        <div className="text-xs text-slate-500">{t.fireTriangle.fuelDesc}</div>
+                        <div className="text-sm font-bold text-slate-900">2. Bahan Bakar (Fuel)</div>
+                        <div className="text-xs text-slate-500">Dedaunan kering, semak belukar, tanah gambut tebal</div>
                       </div>
                     </div>
                     <button
@@ -232,12 +248,12 @@ export const FireTriangle: React.FC<FireTriangleProps> = ({ t }) => {
                         hasFuel ? 'bg-amber-600 text-white' : 'bg-slate-200 text-slate-700'
                       }`}
                     >
-                      {hasFuel ? t.fireTriangle.fuelBtnActive : t.fireTriangle.fuelBtnInactive}
+                      {hasFuel ? 'Aktif (Putuskan Bahan)' : 'Terisolasi (Sekat)'}
                     </button>
                   </div>
                   <div className="mt-2.5 pt-2 border-t border-amber-100/60 text-xs text-slate-600 flex items-center gap-1.5">
                     <Scissors className="w-3.5 h-3.5 text-amber-700 shrink-0" />
-                    <span><strong>Firefighting Science:</strong> {t.fireTriangle.fuelRangerNote}</span>
+                    <span><strong>Metode Manggala Agni:</strong> Membuat sekat bakar (firebreak) dengan memotong vegetasi selebar 5 meter agar api kehabisan santapan.</span>
                   </div>
                 </div>
 
@@ -256,8 +272,8 @@ export const FireTriangle: React.FC<FireTriangleProps> = ({ t }) => {
                         <Wind className="w-5 h-5" />
                       </div>
                       <div>
-                        <div className="text-sm font-bold text-slate-900">{t.fireTriangle.oxygen}</div>
-                        <div className="text-xs text-slate-500">{t.fireTriangle.oxygenDesc}</div>
+                        <div className="text-sm font-bold text-slate-900">3. Oksigen (O₂)</div>
+                        <div className="text-xs text-slate-500">Kandungan gas oksigen bebas di atmosfer (~21%)</div>
                       </div>
                     </div>
                     <button
@@ -266,12 +282,12 @@ export const FireTriangle: React.FC<FireTriangleProps> = ({ t }) => {
                         hasOxygen ? 'bg-sky-600 text-white' : 'bg-slate-200 text-slate-700'
                       }`}
                     >
-                      {hasOxygen ? t.fireTriangle.oxygenBtnActive : t.fireTriangle.oxygenBtnInactive}
+                      {hasOxygen ? 'Aktif (Isolasi Udara)' : 'Tercekik (Busa/Tanah)'}
                     </button>
                   </div>
                   <div className="mt-2.5 pt-2 border-t border-sky-100/60 text-xs text-slate-600 flex items-center gap-1.5">
                     <Shield className="w-3.5 h-3.5 text-sky-700 shrink-0" />
-                    <span><strong>Firefighting Science:</strong> {t.fireTriangle.oxygenRangerNote}</span>
+                    <span><strong>Metode Manggala Agni:</strong> Menimbun bara gambut dengan lumpur padat atau menyemprotkan busa kimia (firefoam) untuk memblokir suplai oksigen.</span>
                   </div>
                 </div>
               </div>
@@ -279,14 +295,14 @@ export const FireTriangle: React.FC<FireTriangleProps> = ({ t }) => {
 
             {/* Middle School Science Takeaway Card */}
             <div className="bg-emerald-50/60 rounded-xl border border-emerald-200 p-4 text-xs text-emerald-950 leading-relaxed">
-              <span className="font-bold text-emerald-900 block mb-1">
-                {t.fireTriangle.scienceNoteTitle}
-              </span>
+              <span className="font-bold text-emerald-900 block mb-1">Catatan IPA untuk Siswa:</span>
+              Persamaan reaksi umum pembakaran organik:
+              <br />
               <code className="font-mono bg-white/80 px-2 py-0.5 rounded text-emerald-900 font-semibold my-1 inline-block">
-                {t.fireTriangle.chemicalEquation}
+                Senyawa Karbon + Oksigen (O₂) ➔ Karbon Dioksida (CO₂) + Uap Air (H₂O) + Energi Panas (Kalor)
               </code>
               <br />
-              {t.fireTriangle.scienceNoteBody}
+              Jika salah satu dari ketiga faktor dihilangkan, laju pembakaran otomatis berhenti seketika. Prinsip inilah dasar pembuatan alat pemadam api ringan (APAR) dan taktik pemadaman karhutla nasional.
             </div>
           </div>
         </div>

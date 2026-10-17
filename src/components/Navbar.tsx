@@ -1,27 +1,29 @@
 import React, { useState } from 'react';
 import { Volume2, VolumeX, Globe } from 'lucide-react';
 import { Language } from '../types';
-import { AppTranslations } from '../data/translations';
+import { AppTranslations, TRANSLATIONS } from '../data/translations';
 import { toggleSound, isSoundEnabled, playClickSfx } from '../utils/audio';
 
 interface NavbarProps {
   activeTab: string;
   setActiveTab: (tab: string) => void;
   onOpenTutor: () => void;
-  lang: Language;
-  onToggleLang: () => void;
-  t: AppTranslations;
+  lang?: Language;
+  onToggleLang?: () => void;
+  t?: AppTranslations;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
   activeTab,
   setActiveTab,
   onOpenTutor,
-  lang,
+  lang = 'id',
   onToggleLang,
   t,
 }) => {
   const [soundOn, setSoundOn] = useState(isSoundEnabled());
+
+  const activeT = t || TRANSLATIONS[lang] || TRANSLATIONS['id'];
 
   const handleSoundToggle = () => {
     const newState = toggleSound();
@@ -29,17 +31,17 @@ export const Navbar: React.FC<NavbarProps> = ({
   };
 
   const navItems = [
-    { id: 'materi', label: t.nav.modules },
-    { id: 'segitiga', label: t.nav.fireTriangle },
-    { id: 'simulasi', label: t.nav.simulator },
-    { id: 'ispu', label: t.nav.airQuality },
-    { id: 'kuis', label: t.nav.quiz },
+    { id: 'materi', label: activeT.nav.modules },
+    { id: 'segitiga', label: activeT.nav.fireTriangle },
+    { id: 'simulasi', label: activeT.nav.simulator },
+    { id: 'ispu', label: activeT.nav.airQuality },
+    { id: 'kuis', label: activeT.nav.quiz },
   ];
 
   return (
     <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-8">
-        {/* Zone 1: Brand wordmark (single line text element) */}
+        {/* Zone 1: Brand wordmark (single text element) */}
         <button
           onClick={() => {
             playClickSfx();
@@ -47,7 +49,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           }}
           className="text-lg font-bold tracking-tight text-slate-900 whitespace-nowrap shrink-0 hover:text-emerald-700 transition-colors text-left"
         >
-          {t.nav.brand}
+          {activeT.nav.brand}
         </button>
 
         {/* Zone 2: 4-5 single-line navigation links */}
@@ -75,22 +77,23 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* Zone 3: Language toggle, Audio, and Primary CTA */}
         <div className="flex items-center gap-3 shrink-0">
-          {/* Language Switcher Button */}
-          <button
-            onClick={() => {
-              playClickSfx();
-              onToggleLang();
-            }}
-            title={lang === 'en' ? 'Switch to Bahasa Indonesia' : 'Ganti ke Bahasa Inggris'}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-slate-200 hover:bg-slate-100 text-xs font-semibold text-slate-700 transition-colors"
-          >
-            <Globe className="w-3.5 h-3.5 text-slate-500" />
-            <span className="font-mono uppercase">{lang === 'en' ? 'EN' : 'ID'}</span>
-          </button>
+          {onToggleLang && (
+            <button
+              onClick={() => {
+                playClickSfx();
+                onToggleLang();
+              }}
+              title={lang === 'en' ? 'Ganti ke Bahasa Indonesia' : 'Switch to English'}
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-slate-200 hover:bg-slate-100 text-xs font-semibold text-slate-700 transition-colors"
+            >
+              <Globe className="w-3.5 h-3.5 text-slate-500" />
+              <span className="font-mono uppercase">{lang === 'en' ? 'EN' : 'ID'}</span>
+            </button>
+          )}
 
           <button
             onClick={handleSoundToggle}
-            title={t.nav.soundToggleTitle}
+            title={activeT.nav.soundToggleTitle || (soundOn ? 'Matikan Suara' : 'Aktifkan Suara')}
             className="p-2 text-slate-500 hover:text-slate-800 transition-colors rounded-lg hover:bg-slate-100"
             aria-label="Toggle Sound"
           >
@@ -104,7 +107,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             }}
             className="px-4 py-2 text-xs font-semibold text-white bg-emerald-700 hover:bg-emerald-800 rounded-lg transition-colors whitespace-nowrap shrink-0 shadow-sm"
           >
-            {t.nav.askRanger}
+            {activeT.nav.askRanger}
           </button>
         </div>
       </div>
