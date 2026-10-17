@@ -1,0 +1,6 @@
+{
+  "name": "Siaga Karhutla - Media Edukasi Kebakaran Hutan SMP",
+  "description": "Media pembelajaran interaktif materi bencana alam kebakaran hutan dan lahan (Karhutla) untuk siswa SMP. Memuat laboratorium simulasi api, segitiga api, pemantau ISPU, dan kuis Jagawana.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
