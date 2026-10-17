@@ -1,3 +1,5 @@
+export type Language = 'en' | 'id';
+
 export type CellType = 'forest' | 'dry_grass' | 'peatland' | 'settlement' | 'water' | 'firebreak' | 'burning' | 'burnt';
 
 export interface GridCell {

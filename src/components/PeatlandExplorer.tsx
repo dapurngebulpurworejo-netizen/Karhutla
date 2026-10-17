@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import { PILLARS_CONTENT } from '../data/learningContent';
 import { playClickSfx } from '../utils/audio';
 import { Layers, Flame, AlertCircle, ShieldCheck, TreePine, Droplets } from 'lucide-react';
+import heroImage from '../assets/images/hero_karhutla_education_1792219410259.jpg';
+import peatlandImage from '../assets/images/peatland_diagram_visual_1792219411611.jpg';
+import smokeImpactImage from '../assets/images/wildfire_smoke_impact_1792219411921.jpg';
+import firefightersImage from '../assets/images/manggala_agni_firefighters_1792219411431.jpg';
 
 export const PeatlandExplorer: React.FC = () => {
   const [activePillar, setActivePillar] = useState('penyebab');
@@ -63,7 +67,7 @@ export const PeatlandExplorer: React.FC = () => {
             <div className="rounded-2xl overflow-hidden border border-slate-200 shadow-sm bg-slate-100 aspect-[4/3] relative">
               {activePillar === 'penyebab' && (
                 <img
-                  src="/src/assets/images/hero_karhutla_education_1792219410259.jpg"
+                  src={heroImage}
                   alt="Asap kebakaran hutan dan menara pengawas"
                   referrerPolicy="no-referrer"
                   className="w-full h-full object-cover"
@@ -71,7 +75,7 @@ export const PeatlandExplorer: React.FC = () => {
               )}
               {activePillar === 'gambut' && (
                 <img
-                  src="/src/assets/images/peatland_diagram_visual_1792219411611.jpg"
+                  src={peatlandImage}
                   alt="Diagram anatomi penampang lahan gambut tropis"
                   referrerPolicy="no-referrer"
                   className="w-full h-full object-cover"
@@ -79,7 +83,7 @@ export const PeatlandExplorer: React.FC = () => {
               )}
               {activePillar === 'dampak' && (
                 <img
-                  src="/src/assets/images/wildfire_smoke_impact_1792219411921.jpg"
+                  src={smokeImpactImage}
                   alt="Dampak kabut asap karhutla terhadap satwa liar orangutan"
                   referrerPolicy="no-referrer"
                   className="w-full h-full object-cover"
@@ -87,7 +91,7 @@ export const PeatlandExplorer: React.FC = () => {
               )}
               {activePillar === 'mitigasi' && (
                 <img
-                  src="/src/assets/images/manggala_agni_firefighters_1792219411431.jpg"
+                  src={firefightersImage}
                   alt="Pasukan Manggala Agni memadamkan bara gambut"
                   referrerPolicy="no-referrer"
                   className="w-full h-full object-cover"

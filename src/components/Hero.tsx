@@ -1,6 +1,7 @@
 import React from 'react';
 import { Flame, Play, ShieldAlert, Award } from 'lucide-react';
 import { playClickSfx } from '../utils/audio';
+import heroImage from '../assets/images/hero_karhutla_education_1792219410259.jpg';
 
 interface HeroProps {
   onStartSimulation: () => void;
@@ -76,7 +77,7 @@ export const Hero: React.FC<HeroProps> = ({
           <div className="lg:col-span-5">
             <div className="relative rounded-2xl overflow-hidden border border-slate-200 shadow-md aspect-video lg:aspect-[4/3] bg-slate-100">
               <img
-                src="/src/assets/images/hero_karhutla_education_1792219410259.jpg"
+                src={heroImage}
                 alt="Menara pantau Jagawana mengawasi kawasan hutan tropis Indonesia dari asap karhutla"
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-cover"
